@@ -8,7 +8,7 @@
             {{ end }}
             <div class="bio-social">
                 {{ range $name, $path := $.Param "socialOptions" }}
-                {{ if (and $path (ne $name "email")) }}
+                {{ if (and $path (and (ne $name "email") (ne $name "rss"))) }}
                 <a href="{{ $path | safeURL }}" target="_blank" rel="noreferrer" title="{{ $name }}"
                     aria-label="{{ $name }}">
                     {{ partial (print "svgs/social/" $name ".svg") (dict "width" 25 "height" 25) }}
@@ -16,6 +16,14 @@
                 {{ end }}
                 {{ if (and $path (eq $name "email")) }}
                 <a href="mailto:{{ $path | safeURL }}" target="_blank" rel="noreferrer" title="{{ $path }}"
+                    aria-label="{{ $name }}">
+                    {{ partial (print "svgs/social/" $name ".svg") (dict "width" 25 "height" 25) }}
+                </a>
+                {{ end }}
+                {{ end }}
+                {{ range $name, $path := $.Param "socialOptions" }}
+                {{ if (and $path (eq $name "rss")) }}
+                <a href="{{ $path | safeURL }}" target="_blank" rel="noreferrer" title="{{ $name }}"
                     aria-label="{{ $name }}">
                     {{ partial (print "svgs/social/" $name ".svg") (dict "width" 25 "height" 25) }}
                 </a>
@@ -44,7 +52,7 @@
             <div class="post">
                 <a href="{{ .RelPermalink }}">
                     <div class="post-row">
-                        <time>{{ .Date.Format "Jan 02" }}</time>
+                        <time>{{ .Date.Format "01-02" }}</time>
                         <h3>{{ .Title }}</h3>
                     </div>
                     <!--<div class="new-post">New!</div>-->
